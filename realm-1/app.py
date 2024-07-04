@@ -34,7 +34,7 @@ def main(page: ft.Page):
         
         welcome_text = ft.Text(f"Welcome, {username}!", width=300, text_align="center", size=32, weight=ft.FontWeight.BOLD)
         logout_button = ft.ElevatedButton(text="Logout", on_click=on_logout)
-        private_message_button = ft.ElevatedButton(text="Private Message", on_click=show_private_message_page)
+        private_message_button = ft.ElevatedButton(text="Private Message", on_click=show_private_message_button_page)
         group_message_button = ft.ElevatedButton(text="Group Message", on_click=show_group_message_page)
         
         page.add(
@@ -52,19 +52,38 @@ def main(page: ft.Page):
         )
         page.update()
 
-    def show_private_message_page(e=None):
+    def show_private_message_button_page(e=None):
+        page.controls.clear()
+
+        send_private_message_button = ft.ElevatedButton(text="Send Private Message", on_click=show_send_private_message_page)
+        inbox_button = ft.ElevatedButton(text="Inbox", on_click=show_inbox_page)
+        back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+
+        page.add(
+            ft.Column(
+                [
+                    send_private_message_button, 
+                    inbox_button, 
+                    back_button,
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
+        )
+        page.update()
+
+    def show_send_private_message_page(e=None):
         page.controls.clear()
 
         username_to_input = ft.TextField(label="Username to", width=300, color=ft.colors.BLACK)
         message_input = ft.TextField(label="Message", width=300, color=ft.colors.BLACK)
         send_button = ft.ElevatedButton(text="Send", on_click=lambda e: on_send_message(username_to_input.value, message_input.value))
-        inbox_button = ft.ElevatedButton(text="Inbox", on_click=show_inbox_page)
-        back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+        back_button = ft.OutlinedButton(text="Back to Dashboard", on_click=show_private_message_button_page)
 
         private_message_card = ft.Container(
             content=ft.Column(
                 [
-                    ft.Text("Private Message", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    ft.Text("Send Private Message", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
                     username_to_input, 
                     message_input, 
                     send_button, 
@@ -88,7 +107,6 @@ def main(page: ft.Page):
             ft.Column(
                 [
                     private_message_card,
-                    inbox_button,
                     back_button,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -96,7 +114,6 @@ def main(page: ft.Page):
             )
         )
         page.update()
-
 
     def show_group_message_page(e=None):
         page.controls.clear()
@@ -178,7 +195,7 @@ def main(page: ft.Page):
             message_text = ft.Text(f"From: {message['msg_from']}\nMessage: {message['msg']}", width=300, text_align="center", color=ft.colors.BLACK)
             inbox_list.controls.append(message_text)
         
-        back_button = ft.OutlinedButton(text="Back to Private Message", on_click=show_private_message_page)
+        back_button = ft.OutlinedButton(text="Back to Private Message", on_click=show_private_message_button_page)
 
         inbox_page_card = ft.Container(
             content=ft.Column(
