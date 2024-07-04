@@ -272,19 +272,38 @@ def main(page: ft.Page):
     def show_login_page(e=None):
         page.controls.clear()
         realm_text = ft.Text("Realm 1", size=48, weight=ft.FontWeight.BOLD, text_align="center")
-        header_text = ft.Text("Sign In", size=32, weight=ft.FontWeight.BOLD, text_align="center")
-        sign_up_button = ft.ElevatedButton(text="Don't have an account? Sign up", on_click=show_sign_up_page)
+        header_text = ft.Text("Sign In", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK)
+        sign_up_button = ft.OutlinedButton(text="Don't have an account? Sign up", on_click=show_sign_up_page, style=ft.ButtonStyle(color=ft.colors.BLACK))
 
-        page.add(
-            ft.Column(
+        sign_in_card = ft.Container(
+            content=ft.Column(
                 [
-                    realm_text,
                     header_text,
                     username_input,
                     password_input,
                     login_button,
                     sign_up_button,
                     result_text,
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            )
+        )
+
+        page.add(
+            ft.Column(
+                [
+                    realm_text,
+                    sign_in_card
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -295,11 +314,12 @@ def main(page: ft.Page):
     def show_sign_up_page(e=None):
         page.controls.clear()
 
-        header_text = ft.Text("Sign Up", size=40, weight=ft.FontWeight.BOLD, text_align="center")
-        sign_in_button = ft.ElevatedButton(text="Already have an account? Sign in", on_click=show_login_page)
+        realm_text = ft.Text("Realm 1", size=48, weight=ft.FontWeight.BOLD, text_align="center")
+        header_text = ft.Text("Sign Up", size=40, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK)
+        sign_in_button = ft.OutlinedButton(text="Already have an account? Sign in", on_click=show_login_page, style=ft.ButtonStyle(color=ft.colors.BLACK))
 
-        page.add(
-            ft.Column(
+        sign_up_card = ft.Container(
+            content=ft.Column(
                 [
                     header_text,
                     sign_up_username_input,
@@ -308,6 +328,26 @@ def main(page: ft.Page):
                     sign_up_button,
                     sign_in_button,
                     sign_up_result_text,
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            )
+        )
+
+        page.add(
+            ft.Column(
+                [
+                    realm_text,
+                    sign_up_card
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -330,17 +370,17 @@ def main(page: ft.Page):
             return []
 
     # Sign-in page inputs
-    username_input = ft.TextField(label="Username", width=300)
-    password_input = ft.TextField(label="Password", password=True, width=300)
+    username_input = ft.TextField(label="Username", width=300, color=ft.colors.BLACK)
+    password_input = ft.TextField(label="Password", password=True, width=300, color=ft.colors.BLACK)
     login_button = ft.ElevatedButton(text="Login", on_click=on_login)
-    result_text = ft.Text()
+    result_text = ft.Text(color=ft.colors.BLACK)
 
     # Sign-up page inputs
-    sign_up_username_input = ft.TextField(label="Username", width=300)
-    sign_up_password_input = ft.TextField(label="Password", password=True, width=300)
-    sign_up_nama_input = ft.TextField(label="Nama", width=300)
+    sign_up_username_input = ft.TextField(label="Username", width=300, color=ft.colors.BLACK)
+    sign_up_password_input = ft.TextField(label="Password", password=True, width=300, color=ft.colors.BLACK)
+    sign_up_nama_input = ft.TextField(label="Nama", width=300, color=ft.colors.BLACK)
     sign_up_button = ft.ElevatedButton(text="Sign Up", on_click=on_sign_up)
-    sign_up_result_text = ft.Text()
+    sign_up_result_text = ft.Text(color=ft.colors.BLACK)
 
     show_login_page()
 
