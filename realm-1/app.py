@@ -25,18 +25,40 @@ def main(page: ft.Page):
         inbox_button = ft.ElevatedButton(text="Inbox", on_click=show_inbox_page)
         
         # Add controls to the dashboard page
-        page.add(welcome_text, private_message_button, inbox_button, logout_button)
+        page.add(
+            ft.Column(
+                [
+                    welcome_text, 
+                    private_message_button, 
+                    inbox_button, 
+                    logout_button
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
+        )
         page.update()
 
     def show_private_message_page(e=None):
         page.controls.clear()  # Clear the current page controls
 
-        username_to_input = ft.TextField(label="Username to")
-        message_input = ft.TextField(label="Message")
+        username_to_input = ft.TextField(label="Username to", width=300)
+        message_input = ft.TextField(label="Message", width=300)
         send_button = ft.ElevatedButton(text="Send", on_click=lambda e: on_send_message(username_to_input.value, message_input.value))
         back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
 
-        page.add(username_to_input, message_input, send_button, back_button)
+        page.add(
+            ft.Column(
+                [
+                    username_to_input, 
+                    message_input, 
+                    send_button, 
+                    back_button
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
+        )
         page.update()
 
     def show_inbox_page(e=None):
@@ -51,7 +73,16 @@ def main(page: ft.Page):
         
         back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
 
-        page.add(inbox_list, back_button)
+        page.add(
+            ft.Column(
+                [
+                    inbox_list, 
+                    back_button
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
+        )
         page.update()
 
     def on_send_message(user, message):
@@ -67,10 +98,22 @@ def main(page: ft.Page):
         page.controls.clear()  # Clear the current page controls
 
         page.add(
-            username_input,
-            password_input,
-            login_button,
-            result_text
+            ft.Row(
+                [
+                    ft.Column(
+                        [
+                            username_input,
+                            password_input,
+                            login_button,
+                            result_text
+                        ],
+                        alignment=ft.MainAxisAlignment.CENTER,
+                        horizontal_alignment=ft.CrossAxisAlignment.CENTER
+                    )
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                vertical_alignment=ft.CrossAxisAlignment.CENTER
+            )
         )
         page.update()
 
@@ -90,11 +133,15 @@ def main(page: ft.Page):
         except json.JSONDecodeError:
             return []
 
-    username_input = ft.TextField(label="Username")
-    password_input = ft.TextField(label="Password", password=True)
+    username_input = ft.TextField(label="Username", width=300)
+    password_input = ft.TextField(label="Password", password=True, width=300)
     login_button = ft.ElevatedButton(text="Login", on_click=on_login)
     result_text = ft.Text()
 
     show_login_page()  # Initial display is the login page
+
+    # Set the alignment of the entire page to center everything
+    page.vertical_alignment = ft.MainAxisAlignment.CENTER
+    page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
 
 ft.app(target=main)
