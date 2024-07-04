@@ -30,7 +30,8 @@ def main(page: ft.Page):
                     welcome_text, 
                     private_message_button,
                     group_message_button,
-                    logout_button
+                    logout_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -54,7 +55,8 @@ def main(page: ft.Page):
                     message_input, 
                     send_button, 
                     inbox_button, 
-                    back_button
+                    back_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -78,7 +80,8 @@ def main(page: ft.Page):
                     join_group_button,
                     inbox_group_button,
                     send_group_message_button,
-                    back_button
+                    back_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -100,7 +103,8 @@ def main(page: ft.Page):
                     group_name_input, 
                     message_input, 
                     send_button, 
-                    back_button
+                    back_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -124,7 +128,8 @@ def main(page: ft.Page):
             ft.Column(
                 [
                     inbox_list, 
-                    back_button
+                    back_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -144,7 +149,8 @@ def main(page: ft.Page):
                 [
                     group_name_input, 
                     create_button, 
-                    back_button
+                    back_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -164,7 +170,8 @@ def main(page: ft.Page):
                 [
                     group_name_input, 
                     join_button, 
-                    back_button
+                    back_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -184,7 +191,8 @@ def main(page: ft.Page):
                 [
                     group_name_input,
                     fetch_inbox_button,
-                    back_button
+                    back_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -221,7 +229,8 @@ def main(page: ft.Page):
                 ft.Column(
                     [
                         inbox_list,
-                        back_button
+                        back_button,
+                        result_text
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -250,22 +259,19 @@ def main(page: ft.Page):
     def show_login_page():
         page.controls.clear()
 
+        header_text = ft.Text("Realm 2", size=40, weight=ft.FontWeight.BOLD, text_align="center")
+
         page.add(
-            ft.Row(
+            ft.Column(
                 [
-                    ft.Column(
-                        [
-                            username_input,
-                            password_input,
-                            login_button,
-                            result_text
-                        ],
-                        alignment=ft.MainAxisAlignment.CENTER,
-                        horizontal_alignment=ft.CrossAxisAlignment.CENTER
-                    )
+                    header_text,
+                    username_input,
+                    password_input,
+                    login_button,
+                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
-                vertical_alignment=ft.CrossAxisAlignment.CENTER
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
             )
         )
         page.update()
