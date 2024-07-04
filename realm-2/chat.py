@@ -36,8 +36,7 @@ class Chat:
 		self.users = {}
 		self.groups = {}
 		self.realm = { 'ip': REALM_IP, 'port': REALM_PORT}
-		self.known_realms = [('127.0.0.1', 12378)]
-
+		self.known_realms = [('127.0.0.1', 12377)]
 
 		self.temp_outgoing={}
 
@@ -47,6 +46,7 @@ class Chat:
 		self.users['dev']={ 'nama': 'dev', 'negara': 'dev', 'password': 'dev', 'incoming' : {}, 'outgoing': {}, 'group': []}
 		self.users['henderson']={ 'nama': 'Jordan Henderson', 'negara': 'Inggris', 'password': 'surabaya', 'incoming': {}, 'outgoing': {}, 'group': ['group1'], 'realm': self.realm}
 		self.users['lineker']={ 'nama': 'Gary Lineker', 'negara': 'Inggris', 'password': 'surabaya','incoming': {}, 'outgoing':{}, 'group': ['group1'], 'realm': self.realm}
+		self.users['ronaldo']={ 'nama': 'Ronaldowati', 'negara': 'Inggris', 'password': 'surabaya','incoming': {}, 'outgoing':{}, 'group': ['group1'], 'realm': self.realm}
 
 		self.groups['group1'] = { 'nama': 'grup inggris', 'incoming': {}, 'outgoing': {}, 'users': ['henderson','lineker'], 'realm': self.realm}
 	def proses(self,data):
