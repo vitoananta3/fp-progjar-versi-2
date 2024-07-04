@@ -283,8 +283,8 @@ def main(page: ft.Page):
                     username_input,
                     password_input,
                     login_button,
+                    sign_up_button,
                     result_text,
-                    sign_up_button
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -306,8 +306,8 @@ def main(page: ft.Page):
                     sign_up_password_input,
                     sign_up_nama_input,
                     sign_up_button,
+                    sign_in_button,
                     sign_up_result_text,
-                    sign_in_button
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
