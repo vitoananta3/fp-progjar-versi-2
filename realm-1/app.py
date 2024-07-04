@@ -182,8 +182,8 @@ def main(page: ft.Page):
         page.add(
             ft.Column(
                 [
-                    group_name_input, 
-                    fetch_inbox_button, 
+                    group_name_input,
+                    fetch_inbox_button,
                     back_button
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -203,22 +203,24 @@ def main(page: ft.Page):
         page.update()
 
     def on_fetch_group_inbox(group_name):
-        response = client.proses(f'inbox_group {group_name}')
+        response = client.inbox_group(group_name)
         page.controls.clear()
 
         try:
             messages = json.loads(response)
             inbox_list = ft.ListView()
 
-            for message in messages:
-                message_text = ft.Text(f"From: {message['msg_from']}\nMessage: {message['msg']}", width=300, text_align="center")
-                inbox_list.controls.append(message_text)
+            if isinstance(messages, dict):
+                for group, msgs in messages.items():
+                    for message in msgs:
+                        message_text = ft.Text(f"From: {message['msg_from']}\nMessage: {message['msg']}", width=300, text_align="center")
+                        inbox_list.controls.append(message_text)
 
             back_button = ft.ElevatedButton(text="Back to Group Message", on_click=show_group_message_page)
             page.add(
                 ft.Column(
                     [
-                        inbox_list, 
+                        inbox_list,
                         back_button
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
