@@ -32,7 +32,7 @@ def main(page: ft.Page):
     def show_dashboard_page(username):
         page.controls.clear()
         
-        welcome_text = ft.Text(f"Welcome, {username}!", width=300, text_align="center")
+        welcome_text = ft.Text(f"Welcome, {username}!", width=300, text_align="center", size=32, weight=ft.FontWeight.BOLD)
         logout_button = ft.ElevatedButton(text="Logout", on_click=on_logout)
         private_message_button = ft.ElevatedButton(text="Private Message", on_click=show_private_message_page)
         group_message_button = ft.ElevatedButton(text="Group Message", on_click=show_group_message_page)
@@ -55,27 +55,48 @@ def main(page: ft.Page):
     def show_private_message_page(e=None):
         page.controls.clear()
 
-        username_to_input = ft.TextField(label="Username to", width=300)
-        message_input = ft.TextField(label="Message", width=300)
+        username_to_input = ft.TextField(label="Username to", width=300, color=ft.colors.BLACK)
+        message_input = ft.TextField(label="Message", width=300, color=ft.colors.BLACK)
         send_button = ft.ElevatedButton(text="Send", on_click=lambda e: on_send_message(username_to_input.value, message_input.value))
         inbox_button = ft.ElevatedButton(text="Inbox", on_click=show_inbox_page)
         back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
 
-        page.add(
-            ft.Column(
+        private_message_card = ft.Container(
+            content=ft.Column(
                 [
+                    ft.Text("Private Message", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
                     username_to_input, 
                     message_input, 
                     send_button, 
-                    inbox_button, 
-                    back_button,
                     result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            )
+        )
+
+        page.add(
+            ft.Column(
+                [
+                    private_message_card,
+                    inbox_button,
+                    back_button,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
             )
         )
         page.update()
+
 
     def show_group_message_page(e=None):
         page.controls.clear()
@@ -108,21 +129,43 @@ def main(page: ft.Page):
         group_name_input = ft.TextField(label="Group Name", width=300)
         message_input = ft.TextField(label="Message", width=300)
         send_button = ft.ElevatedButton(text="Send", on_click=lambda e: on_send_group_message(group_name_input.value, message_input.value))
-        back_button = ft.ElevatedButton(text="Back to Group Message", on_click=show_group_message_page)
+        back_button = ft.OutlinedButton(text="Back to Group Message", on_click=show_group_message_page)
+
+        send_group_message_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Send Group Message", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    group_name_input,
+                    message_input,
+                    send_button,
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            ),
+            width=400
+        )
 
         page.add(
             ft.Column(
                 [
-                    group_name_input, 
-                    message_input, 
-                    send_button, 
+                    send_group_message_card,
                     back_button,
-                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
             )
         )
+        
         page.update()
 
     def show_inbox_page(e=None):
@@ -132,17 +175,38 @@ def main(page: ft.Page):
         inbox_list = ft.ListView()
 
         for message in inbox_messages:
-            message_text = ft.Text(f"From: {message['msg_from']}\nMessage: {message['msg']}", width=300, text_align="center")
+            message_text = ft.Text(f"From: {message['msg_from']}\nMessage: {message['msg']}", width=300, text_align="center", color=ft.colors.BLACK)
             inbox_list.controls.append(message_text)
         
-        back_button = ft.ElevatedButton(text="Back to Private Message", on_click=show_private_message_page)
+        back_button = ft.OutlinedButton(text="Back to Private Message", on_click=show_private_message_page)
+
+        inbox_page_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Inbox", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    inbox_list,
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            ),
+            width=400 
+        )
 
         page.add(
             ft.Column(
                 [
-                    inbox_list, 
+                    inbox_page_card,
                     back_button,
-                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -153,17 +217,38 @@ def main(page: ft.Page):
     def show_create_group_page(e=None):
         page.controls.clear()
 
-        group_name_input = ft.TextField(label="Group Name", width=300)
+        group_name_input = ft.TextField(label="Group Name", width=300, color=ft.colors.BLACK)
         create_button = ft.ElevatedButton(text="Create Group", on_click=lambda e: on_create_group(group_name_input.value))
-        back_button = ft.ElevatedButton(text="Back to Group Message", on_click=show_group_message_page)
+        back_button = ft.OutlinedButton(text="Back to Group Message", on_click=show_group_message_page)
+
+        create_group_page_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Create Group", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    group_name_input,
+                    create_button,
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            ),
+            width=400
+        )
 
         page.add(
             ft.Column(
                 [
-                    group_name_input, 
-                    create_button, 
+                    create_group_page_card,
                     back_button,
-                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -174,17 +259,38 @@ def main(page: ft.Page):
     def show_join_group_page(e=None):
         page.controls.clear()
 
-        group_name_input = ft.TextField(label="Group Name", width=300)
+        group_name_input = ft.TextField(label="Group Name", width=300, color=ft.colors.BLACK)
         join_button = ft.ElevatedButton(text="Join Group", on_click=lambda e: on_join_group(group_name_input.value))
-        back_button = ft.ElevatedButton(text="Back to Group Message", on_click=show_group_message_page)
+        back_button = ft.OutlinedButton(text="Back to Group Message", on_click=show_group_message_page)
+
+        join_group_page_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Join Group", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    group_name_input,
+                    join_button,
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            ),
+            width=400
+        )
 
         page.add(
             ft.Column(
                 [
-                    group_name_input, 
-                    join_button, 
+                    join_group_page_card,
                     back_button,
-                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -195,22 +301,44 @@ def main(page: ft.Page):
     def show_inbox_group_page(e=None):
         page.controls.clear()
 
-        group_name_input = ft.TextField(label="Group Name", width=300)
+        group_name_input = ft.TextField(label="Group Name", width=300, color=ft.colors.BLACK)
         fetch_inbox_button = ft.ElevatedButton(text="Fetch Group Inbox", on_click=lambda e: on_fetch_group_inbox(group_name_input.value))
-        back_button = ft.ElevatedButton(text="Back to Group Message", on_click=show_group_message_page)
+        back_button = ft.OutlinedButton(text="Back to Group Message", on_click=show_group_message_page)
+
+        inbox_group_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Inbox Group", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    group_name_input,
+                    fetch_inbox_button,
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            ),
+            width=400
+        )
 
         page.add(
             ft.Column(
                 [
-                    group_name_input,
-                    fetch_inbox_button,
+                    inbox_group_card,
                     back_button,
-                    result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
             )
         )
+
         page.update()
 
     def on_create_group(group_name):
@@ -234,21 +362,45 @@ def main(page: ft.Page):
             if isinstance(messages, dict):
                 for group, msgs in messages.items():
                     for message in msgs:
-                        message_text = ft.Text(f"From: {message['msg_from']}\nMessage: {message['msg']}", width=300, text_align="center")
+                        message_text = ft.Text(f"From: {message['msg_from']}\nMessage: {message['msg']}", width=300, text_align="center", color=ft.colors.BLACK)
                         inbox_list.controls.append(message_text)
 
-            back_button = ft.ElevatedButton(text="Back to Group Message", on_click=show_group_message_page)
+            back_button = ft.OutlinedButton(text="Back to Group Message", on_click=show_group_message_page)
+            
+            inbox_group_card = ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Text("Inbox Group", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                        inbox_list,
+                        result_text
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
+                ),
+                padding=20,
+                border_radius=15,
+                bgcolor=ft.colors.WHITE,
+                shadow=ft.BoxShadow(
+                    blur_radius=15,
+                    spread_radius=5,
+                    color=ft.colors.BLACK12,
+                    offset=(5, 5)
+                ),
+                width=400
+            )
+            
             page.add(
                 ft.Column(
                     [
-                        inbox_list,
+                        inbox_group_card,
                         back_button,
-                        result_text
                     ],
                     alignment=ft.MainAxisAlignment.CENTER,
                     horizontal_alignment=ft.CrossAxisAlignment.CENTER
                 )
             )
+
+
         except json.JSONDecodeError:
             result_text.value = "Failed to fetch group inbox"
             page.add(result_text)
@@ -273,7 +425,7 @@ def main(page: ft.Page):
         page.controls.clear()
         realm_text = ft.Text("Realm 1", size=48, weight=ft.FontWeight.BOLD, text_align="center")
         header_text = ft.Text("Sign In", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK)
-        sign_up_button = ft.OutlinedButton(text="Don't have an account? Sign up", on_click=show_sign_up_page, style=ft.ButtonStyle(color=ft.colors.BLACK))
+        sign_up_button = ft.OutlinedButton(text="Don't have an account? Sign up", on_click=show_sign_up_page, style=ft.ButtonStyle(color=ft.colors.WHITE))
 
         sign_in_card = ft.Container(
             content=ft.Column(
@@ -282,7 +434,6 @@ def main(page: ft.Page):
                     username_input,
                     password_input,
                     login_button,
-                    sign_up_button,
                     result_text,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -303,7 +454,8 @@ def main(page: ft.Page):
             ft.Column(
                 [
                     realm_text,
-                    sign_in_card
+                    sign_in_card,
+                    sign_up_button,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
@@ -316,7 +468,7 @@ def main(page: ft.Page):
 
         realm_text = ft.Text("Realm 1", size=48, weight=ft.FontWeight.BOLD, text_align="center")
         header_text = ft.Text("Sign Up", size=40, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK)
-        sign_in_button = ft.OutlinedButton(text="Already have an account? Sign in", on_click=show_login_page, style=ft.ButtonStyle(color=ft.colors.BLACK))
+        sign_in_button = ft.OutlinedButton(text="Already have an account? Sign in", on_click=show_login_page, style=ft.ButtonStyle(color=ft.colors.WHITE))
 
         sign_up_card = ft.Container(
             content=ft.Column(
@@ -326,7 +478,6 @@ def main(page: ft.Page):
                     sign_up_password_input,
                     sign_up_nama_input,
                     sign_up_button,
-                    sign_in_button,
                     sign_up_result_text,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -347,7 +498,8 @@ def main(page: ft.Page):
             ft.Column(
                 [
                     realm_text,
-                    sign_up_card
+                    sign_up_card,
+                    sign_in_button,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
