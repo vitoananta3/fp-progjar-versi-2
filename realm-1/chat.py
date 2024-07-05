@@ -39,8 +39,8 @@ class Chat:
 		self.users = {}
 		self.groups = {}
 		self.realm = { 'ip': REALM_IP, 'port': REALM_PORT}
-		self.known_realms = [('172.18.0.3', 1112)]
-
+		self.known_realms = [('127.0.0.1', 12378)]
+		
 		self.temp_outgoing={}
 
 
