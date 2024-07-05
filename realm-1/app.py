@@ -745,10 +745,37 @@ def main(page: ft.Page):
             files = json.loads(response)
             inbox_list = ft.ListView()
 
-            for file in files:
-                file_text = ft.Text(f"File: {file}", width=300, text_align="center", color=ft.colors.BLACK)
-                inbox_list.controls.append(file_text)
-            
+            for file, details in files.items():
+                for detail in details:
+                    file_text = ft.Text(
+                        f"Filename: {detail['filename']}\nReal Filename: {detail['real_file_name']}\nFrom: {detail['from']}\nTo: {detail['to']}",
+                        width=300, text_align="center", color=ft.colors.BLACK)
+
+                    download_button = ft.IconButton(
+                        icon=ft.icons.DOWNLOAD,
+                        on_click=lambda e, filename=detail['real_file_name']: on_download_file(filename)
+                    )
+
+                    file_container = ft.Container(
+                        content=ft.Row(
+                            [
+                                file_text,
+                                download_button
+                            ],
+                            alignment=ft.MainAxisAlignment.SPACE_BETWEEN,
+                            vertical_alignment=ft.CrossAxisAlignment.CENTER
+                        ),
+                        padding=10,
+                        border_radius=5,
+                        shadow=ft.BoxShadow(
+                            blur_radius=5,
+                            spread_radius=2,
+                            color=ft.colors.BLACK12,
+                            offset=(2, 2)
+                        )
+                    )
+                    inbox_list.controls.append(file_container)
+
             back_button = ft.OutlinedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
 
             inbox_file_card = ft.Container(
@@ -787,6 +814,14 @@ def main(page: ft.Page):
             result_text.value = "Failed to fetch inbox files"
             page.add(result_text)
         
+        page.update()
+
+    def on_download_file(filename):
+        response = client.proses(f'get_file {filename}')
+        if response['status'] == 'OK':
+            result_text.value = "File downloaded successfully"
+        else:
+            result_text.value = response['message']
         page.update()
 
     # Sign-in page inputs
