@@ -36,10 +36,6 @@ def main(page: ft.Page):
         logout_button = ft.ElevatedButton(text="Logout", on_click=on_logout)
         private_message_button = ft.ElevatedButton(text="Private Message", on_click=show_private_message_button_page)
         group_message_button = ft.ElevatedButton(text="Group Message", on_click=show_group_message_page)
-        file_upload_button = ft.ElevatedButton(text="Send File", on_click=show_send_file_page)
-        group_file_upload_button = ft.ElevatedButton(text="Send Group File", on_click=show_send_group_file_page)
-        inbox_file_button = ft.ElevatedButton(text="Inbox File", on_click=show_inbox_file_page)
-        inbox_group_file_button = ft.ElevatedButton(text="Inbox Group File", on_click=show_inbox_group_file_page)
         
         page.add(
             ft.Column(
@@ -47,11 +43,7 @@ def main(page: ft.Page):
                     welcome_text, 
                     private_message_button,
                     group_message_button,
-                    file_upload_button,
-                    group_file_upload_button,
                     logout_button,
-                    inbox_file_button,
-                    inbox_group_file_button,
                     result_text
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -162,12 +154,14 @@ def main(page: ft.Page):
         send_private_message_button = ft.ElevatedButton(text="Send Private Message", on_click=show_send_private_message_page)
         inbox_button = ft.ElevatedButton(text="Inbox", on_click=show_inbox_page)
         back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+        file_upload_button = ft.ElevatedButton(text="Send File", on_click=show_send_file_page)
 
         page.add(
             ft.Column(
                 [
                     send_private_message_button, 
                     inbox_button, 
+                    file_upload_button,
                     back_button,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -227,6 +221,7 @@ def main(page: ft.Page):
         inbox_group_button = ft.ElevatedButton(text="Inbox Group", on_click=show_inbox_group_page)
         send_group_message_button = ft.ElevatedButton(text="Send Group Message", on_click=show_send_group_message_page)
         back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+        group_file_upload_button = ft.ElevatedButton(text="Send Group File", on_click=show_send_group_file_page)
 
         page.add(
             ft.Column(
@@ -235,6 +230,7 @@ def main(page: ft.Page):
                     join_group_button,
                     inbox_group_button,
                     send_group_message_button,
+                    group_file_upload_button,
                     back_button,
                     result_text
                 ],
