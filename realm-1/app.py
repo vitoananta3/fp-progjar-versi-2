@@ -36,6 +36,10 @@ def main(page: ft.Page):
         logout_button = ft.ElevatedButton(text="Logout", on_click=on_logout)
         private_message_button = ft.ElevatedButton(text="Private Message", on_click=show_private_message_button_page)
         group_message_button = ft.ElevatedButton(text="Group Message", on_click=show_group_message_page)
+        file_upload_button = ft.ElevatedButton(text="Send File", on_click=show_send_file_page)
+        group_file_upload_button = ft.ElevatedButton(text="Send Group File", on_click=show_send_group_file_page)
+        inbox_file_button = ft.ElevatedButton(text="Inbox File", on_click=show_inbox_file_page)
+        inbox_group_file_button = ft.ElevatedButton(text="Inbox Group File", on_click=show_inbox_group_file_page)
         
         page.add(
             ft.Column(
@@ -43,8 +47,108 @@ def main(page: ft.Page):
                     welcome_text, 
                     private_message_button,
                     group_message_button,
+                    file_upload_button,
+                    group_file_upload_button,
                     logout_button,
+                    inbox_file_button,
+                    inbox_group_file_button,
                     result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
+        )
+        page.update()
+
+    def on_send_file(user, file_path):
+        response = client.proses(f'send_file {user} {file_path}')
+        result_text.value = response['message'] if isinstance(response, dict) else response
+        page.update()
+
+    def show_send_file_page(e=None):
+        page.controls.clear()
+
+        username_to_input = ft.TextField(label="Username to", width=300, color=ft.colors.BLACK)
+        file_input = ft.TextField(label="File Path", width=300, color=ft.colors.BLACK)
+        send_button = ft.ElevatedButton(text="Send", on_click=lambda e: on_send_file(username_to_input.value, file_input.value))
+        back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+
+        send_file_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Send File", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    username_to_input, 
+                    file_input, 
+                    send_button, 
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            )
+        )
+
+        page.add(
+            ft.Column(
+                [
+                    send_file_card,
+                    back_button,
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
+        )
+        page.update()
+
+    def on_send_group_file(group, file_path):
+        response = client.proses(f'send_file_group {group} {file_path}')
+        result_text.value = response['message'] if isinstance(response, dict) else response
+        page.update()
+
+    def show_send_group_file_page(e=None):
+        page.controls.clear()
+
+        group_name_input = ft.TextField(label="Group Name", width=300, color=ft.colors.BLACK)
+        file_input = ft.TextField(label="File Path", width=300, color=ft.colors.BLACK)
+        send_button = ft.ElevatedButton(text="Send", on_click=lambda e: on_send_group_file(group_name_input.value, file_input.value))
+        back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+
+        send_group_file_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Send Group File", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    group_name_input, 
+                    file_input, 
+                    send_button, 
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            )
+        )
+
+        page.add(
+            ft.Column(
+                [
+                    send_group_file_card,
+                    back_button,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
                 horizontal_alignment=ft.CrossAxisAlignment.CENTER
