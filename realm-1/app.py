@@ -155,6 +155,7 @@ def main(page: ft.Page):
         inbox_button = ft.ElevatedButton(text="Inbox", on_click=show_inbox_page)
         back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
         file_upload_button = ft.ElevatedButton(text="Send File", on_click=show_send_file_page)
+        inbox_file_button = ft.ElevatedButton(text="Inbox Files", on_click=show_inbox_file_page)
 
         page.add(
             ft.Column(
@@ -162,6 +163,7 @@ def main(page: ft.Page):
                     send_private_message_button, 
                     inbox_button, 
                     file_upload_button,
+                    inbox_file_button,
                     back_button,
                 ],
                 alignment=ft.MainAxisAlignment.CENTER,
@@ -222,6 +224,7 @@ def main(page: ft.Page):
         send_group_message_button = ft.ElevatedButton(text="Send Group Message", on_click=show_send_group_message_page)
         back_button = ft.ElevatedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
         group_file_upload_button = ft.ElevatedButton(text="Send Group File", on_click=show_send_group_file_page)
+        inbox_group_file_button = ft.ElevatedButton(text="Inbox Group Files", on_click=show_inbox_group_file_page)
 
         page.add(
             ft.Column(
@@ -231,6 +234,7 @@ def main(page: ft.Page):
                     inbox_group_button,
                     send_group_message_button,
                     group_file_upload_button,
+                    inbox_group_file_button,
                     back_button,
                     result_text
                 ],
@@ -637,6 +641,153 @@ def main(page: ft.Page):
                 return []
         except json.JSONDecodeError:
             return []
+        
+    def on_fetch_group_inbox_files(group_name):
+        response = client.proses(f'inbox_file_group {group_name}')
+        try:
+            files = json.loads(response)
+            page.controls.clear()
+            inbox_list = ft.ListView()
+
+            for file in files:
+                file_text = ft.Text(f"File: {file}", width=300, text_align="center", color=ft.colors.BLACK)
+                inbox_list.controls.append(file_text)
+            
+            back_button = ft.OutlinedButton(text="Back to Group Message", on_click=show_group_message_page)
+            
+            inbox_group_file_card = ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Text("Inbox Group Files", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                        inbox_list,
+                        result_text
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
+                ),
+                padding=20,
+                border_radius=15,
+                bgcolor=ft.colors.WHITE,
+                shadow=ft.BoxShadow(
+                    blur_radius=15,
+                    spread_radius=5,
+                    color=ft.colors.BLACK12,
+                    offset=(5, 5)
+                ),
+                width=400
+            )
+            
+            page.add(
+                ft.Column(
+                    [
+                        inbox_group_file_card,
+                        back_button,
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
+                )
+            )
+
+
+        except json.JSONDecodeError:
+            result_text.value = "Failed to fetch group inbox files"
+            page.add(result_text)
+
+        page.update()
+
+    def show_inbox_group_file_page(e=None):
+        page.controls.clear()
+
+        group_name_input = ft.TextField(label="Group Name", width=300, color=ft.colors.BLACK)
+        fetch_inbox_button = ft.ElevatedButton(text="Fetch Group Inbox Files", on_click=lambda e: on_fetch_group_inbox_files(group_name_input.value))
+        back_button = ft.OutlinedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+
+        inbox_group_file_card = ft.Container(
+            content=ft.Column(
+                [
+                    ft.Text("Inbox Group Files", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                    group_name_input,
+                    fetch_inbox_button,
+                    result_text
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            ),
+            padding=20,
+            border_radius=15,
+            bgcolor=ft.colors.WHITE,
+            shadow=ft.BoxShadow(
+                blur_radius=15,
+                spread_radius=5,
+                color=ft.colors.BLACK12,
+                offset=(5, 5)
+            ),
+            width=400
+        )
+
+        page.add(
+            ft.Column(
+                [
+                    inbox_group_file_card,
+                    back_button,
+                ],
+                alignment=ft.MainAxisAlignment.CENTER,
+                horizontal_alignment=ft.CrossAxisAlignment.CENTER
+            )
+        )
+        page.update()
+
+    def show_inbox_file_page(e=None):
+        page.controls.clear()
+
+        response = client.proses('inbox_file')
+        try:
+            files = json.loads(response)
+            inbox_list = ft.ListView()
+
+            for file in files:
+                file_text = ft.Text(f"File: {file}", width=300, text_align="center", color=ft.colors.BLACK)
+                inbox_list.controls.append(file_text)
+            
+            back_button = ft.OutlinedButton(text="Back to Dashboard", on_click=lambda _: show_dashboard_page(username_input.value))
+
+            inbox_file_card = ft.Container(
+                content=ft.Column(
+                    [
+                        ft.Text("Inbox Files", size=32, weight=ft.FontWeight.BOLD, text_align="center", color=ft.colors.BLACK),
+                        inbox_list,
+                        result_text
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
+                ),
+                padding=20,
+                border_radius=15,
+                bgcolor=ft.colors.WHITE,
+                shadow=ft.BoxShadow(
+                    blur_radius=15,
+                    spread_radius=5,
+                    color=ft.colors.BLACK12,
+                    offset=(5, 5)
+                ),
+                width=400 
+            )
+
+            page.add(
+                ft.Column(
+                    [
+                        inbox_file_card,
+                        back_button,
+                    ],
+                    alignment=ft.MainAxisAlignment.CENTER,
+                    horizontal_alignment=ft.CrossAxisAlignment.CENTER
+                )
+            )
+        except json.JSONDecodeError:
+            result_text.value = "Failed to fetch inbox files"
+            page.add(result_text)
+        
+        page.update()
 
     # Sign-in page inputs
     username_input = ft.TextField(label="Username", width=300, color=ft.colors.BLACK)
